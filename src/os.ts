@@ -44,9 +44,36 @@ export const ensureIndexExists = async (name: string) => {
     });
 };
 
+const pad = (n: number, len: number) => {
+    let str = `${n}`;
+    while (str.length < len) {
+        str = '0' + str;
+    }
+    return str;
+};
+
 export const updateOld = async () => {
+    const dateObject = new Date();
+    const date = `${pad(dateObject.getUTCFullYear(), 4)}-${pad(dateObject.getUTCMonth() + 1, 2)}-${pad(dateObject.getUTCDate(), 2)}`;
+
+    await client.deleteByQuery({
+        index: 'css',
+        conflicts: 'proceed',
+        body: {
+            query: {
+                range: {
+                    timestamp: {
+                        gt: `${date}T00:00:00`,
+                        lte: `${date}T23:59:59`,
+                    },
+                },
+            },
+        },
+    });
+
     await client.updateByQuery({
         index: 'css',
+        conflicts: 'proceed',
         body: {
             query: {
                 term: {
