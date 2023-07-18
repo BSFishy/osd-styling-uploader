@@ -1,0 +1,23 @@
+{
+  "name": "uploader",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "tsc --outDir dist",
+    "start": "node dist/index",
+    "start:logs": "node dist/updateLogs"
+  },
+  "dependencies": {
+    "@opensearch-project/opensearch": "^2.3.0",
+    "dotenv": "^16.3.1",
+    "postcss": "^8.4.26",
+    "postcss-scss": "^4.0.6",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.0",
+    "@types/uuid": "^9.0.2",
+    "typescript": "^5.1.6"
+  }
+}
