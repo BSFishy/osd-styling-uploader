@@ -52,8 +52,7 @@ const pad = (n: number, len: number) => {
     return str;
 };
 
-export const updateOld = async () => {
-    const dateObject = new Date();
+export const deleteOld = async (dateObject: Date = new Date()) => {
     const date = `${pad(dateObject.getUTCFullYear(), 4)}-${pad(dateObject.getUTCMonth() + 1, 2)}-${pad(dateObject.getUTCDate(), 2)}`;
 
     await client.deleteByQuery({
@@ -63,13 +62,17 @@ export const updateOld = async () => {
             query: {
                 range: {
                     timestamp: {
-                        gt: `${date}T00:00:00`,
+                        gte: `${date}T00:00:00`,
                         lte: `${date}T23:59:59`,
                     },
                 },
             },
         },
     });
+};
+
+export const updateOld = async () => {
+    await deleteOld();
 
     await client.updateByQuery({
         index: 'css',
@@ -90,7 +93,7 @@ export const updateOld = async () => {
 
 const COLOR_REGEX = /#[a-fA-F0-9]{3}(?:[a-fA-F0-9]{3})?|(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\\([^)]*\\)/;
 
-export const processDeclaration = async (root: string, decl: Declaration) => {
+export const processDeclaration = async (root: string, decl: Declaration, date: Date = new Date(), latest: boolean = true) => {
     if (!decl.parent || decl.parent.type === 'root') {
         return;
     }
@@ -115,8 +118,8 @@ export const processDeclaration = async (root: string, decl: Declaration) => {
             root: findRoot(relativeFilename),
             plugin: isPlugin(relativeFilename),
             corePlugin: isCorePlugin(relativeFilename),
-            timestamp: new Date().toISOString(),
-            latest: true,
+            timestamp: date.toISOString(),
+            latest,
         },
     });
 };

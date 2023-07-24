@@ -6,11 +6,13 @@
   "scripts": {
     "build": "tsc --outDir dist",
     "start": "node dist/index",
+    "start:backfill": "node dist/backfill",
     "start:logs": "node dist/updateLogs"
   },
   "dependencies": {
     "@opensearch-project/opensearch": "^2.3.0",
     "dotenv": "^16.3.1",
+    "isomorphic-git": "^1.24.5",
     "postcss": "^8.4.26",
     "postcss-scss": "^4.0.6",
     "uuid": "^9.0.0"
