@@ -8,8 +8,8 @@ import http from 'isomorphic-git/http/node';
 import 'dotenv/config';
 
 // Configure these dates
-const DATE_START = [7, 19, 2022];
-const DATE_END = [1, 1, 2023];
+const DATE_START = [10, 1, 2023];
+const DATE_END = [10, 24, 2023];
 
 const START_DATE = new Date(DATE_START[2], DATE_START[0] - 1, DATE_START[1], 10);
 const END_DATE = new Date(DATE_END[2], DATE_END[0] - 1, DATE_END[1], 10);
